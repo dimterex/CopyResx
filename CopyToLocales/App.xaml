@@ -1,9 +1,21 @@
-﻿<Application x:Class="CopyToLocales.App"
+﻿<prism:PrismApplication
+    xmlns:prism="http://prismlibrary.com/" 
+    x:Class="CopyToLocales.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CopyToLocales"
-             StartupUri="MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
-</Application>
+             xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <prism:PrismApplication.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/StringResources.xaml" />
+
+
+                <ResourceDictionary Source="Resources/ResourceDictionary.xaml" />
+
+                <ResourceDictionary Source="Resources/ImageResources.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </prism:PrismApplication.Resources>
+</prism:PrismApplication>

@@ -1,0 +1,129 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CopyToLocales"
+                    xmlns:grayscaleEffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect">
+
+    <BitmapImage x:Key="CopyImage_x24" UriSource="pack://application:,,,/Resources/copy-24.png" />
+    <BitmapImage x:Key="PlaytImage_x24" UriSource="pack://application:,,,/Resources/play-3-24.png" />
+    <BitmapImage x:Key="FolderImage_x24" UriSource="pack://application:,,,/Resources/folder-24.png" />
+    <BitmapImage x:Key="BackImage_x24" UriSource="pack://application:,,,/Resources/back-24.png" />
+    <BitmapImage x:Key="ForwardImage_x24" UriSource="pack://application:,,,/Resources/forward-24.png" />
+
+    <grayscaleEffect:GrayscaleEffect x:Key="grayscaleEffect" />
+
+    <Style TargetType="Image" x:Key="ImageStyleScale">
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Width" Value="24" />
+    </Style>
+
+    <Style TargetType="Image" x:Key="ImageStyleCheckBoxWithGrayScale" BasedOn="{StaticResource ImageStyleScale}">
+        <Style.Triggers>
+            <DataTrigger
+                Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                Value="False">
+                <Setter Property="Effect" Value="{StaticResource grayscaleEffect}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="NavigationForwardButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource ForwardButtonString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource ForwardImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NavigationBackButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource BackButtonString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource BackImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CheckBoxCopyImageStyle" TargetType="CheckBox" BasedOn="{StaticResource BaseStyleElement}">
+        <Setter Property="ToolTip" Value="{StaticResource CopyString}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource SelectFolderString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleCheckBoxWithGrayScale}">
+                                        <Setter Property="Source" Value="{StaticResource CopyImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FolderButtonImageStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource SelectFolderString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource FolderImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Image" x:Key="StartImageStyle" BasedOn="{StaticResource ImageStyleScale}">
+        <Setter Property="Source" Value="{StaticResource PlaytImage_x24}" />
+    </Style>
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="StartButtonDataTemplate">
+        <StackPanel Orientation="Horizontal">
+            <Border>
+                <Image x:Name="Image" Style="{StaticResource StartImageStyle}" ToolTip="{StaticResource StartButtonString}" />
+            </Border>
+            <ContentPresenter Content="{TemplateBinding Content}" />
+        </StackPanel>
+    </ControlTemplate>
+    <Style x:Key="StartButtonImageStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template" Value="{StaticResource StartButtonDataTemplate}" />
+    </Style>
+
+</ResourceDictionary>

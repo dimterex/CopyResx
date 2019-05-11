@@ -34,10 +34,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="GrayscaleEffect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GrayscaleEffect.1.0.1\lib\GrayscaleEffect.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -46,6 +68,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -56,19 +84,95 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\DictionaryEntryElement.cs" />
+    <Compile Include="Core\Enums\FileType.cs" />
+    <Compile Include="Services\Interfaces\ILogService.cs" />
+    <Compile Include="Services\Interfaces\IOutputsManager.cs" />
+    <Compile Include="Services\Interfaces\IOutputManager.cs" />
+    <Compile Include="Services\Interfaces\IFileManager.cs" />
+    <Compile Include="Services\Interfaces\ISettingsManager.cs" />
+    <Compile Include="Services\Realization\SettingsManager.cs" />
+    <Compile Include="Services\Realization\LogService.cs" />
+    <Compile Include="Services\ViewModule.cs" />
+    <Compile Include="Services\Realization\OutputsManager.cs" />
+    <Compile Include="Services\Realization\ResxOutputManager.cs" />
+    <Compile Include="Services\Realization\FileManager.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Core\Enums\OutputTypes.cs" />
+    <Compile Include="Core\Interfaces\INavigation.cs" />
+    <Compile Include="ViewModel\SelectFileViewModel.cs" />
+    <Compile Include="ViewModel\SelectionOutputViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\KeysEditorViewModel.cs" />
+    <Compile Include="ViewModel\TargetFolderSelectViewModel.cs" />
+    <Compile Include="ViewModel\SourceFolderSelectViewModel.cs" />
+    <Compile Include="ViewModel\SelectionViewModel.cs" />
+    <Compile Include="View\KeysEditorView.xaml.cs">
+      <DependentUpon>KeysEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectFile.xaml.cs">
+      <DependentUpon>SelectFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionOutputView.xaml.cs">
+      <DependentUpon>SelectionOutputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TargetFolderSelectView.xaml.cs">
+      <DependentUpon>TargetFolderSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SourceFolderSelectView.xaml.cs">
+      <DependentUpon>SourceFolderSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionView.xaml.cs">
+      <DependentUpon>SelectionView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Resources\ImageResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\StringResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\KeysEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ControlSettings.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="View\SelectFile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectionOutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TargetFolderSelectView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SourceFolderSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\Annotations.cs" />
@@ -89,6 +193,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -96,6 +201,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\folder-24.png" />
+    <Resource Include="Resources\play-3-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\copy-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\back-24.png" />
+    <Resource Include="Resources\forward-24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

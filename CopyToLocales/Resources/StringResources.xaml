@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:CopyToLocales">
+
+    <system:String x:Key="SourceLocalizationPath">Укажите папку, откуда брать локализацию:</system:String>
+
+    <system:String x:Key="HeaderValueKeysEditorString">Значение</system:String>
+    <system:String x:Key="HeaderOldKeyKeysEditorString">Старый ключ</system:String>
+    <system:String x:Key="HeaderNewKeyKeysEditorString">Новый ключ</system:String>
+
+    <system:String x:Key="StartButtonString">Выполнить</system:String>
+    <system:String x:Key="BackButtonString">Назад</system:String>
+    <system:String x:Key="ForwardButtonString">Дальше</system:String>
+
+    <system:String x:Key="SelectionOutputString">Выберите способ сохранения</system:String>
+
+    <system:String x:Key="CopyString">Копировать</system:String>
+    <system:String x:Key="SelectFolderString">Указать папку</system:String>
+    
+</ResourceDictionary>

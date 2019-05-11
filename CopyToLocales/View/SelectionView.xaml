@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="CopyToLocales.View.SelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:CopyToLocales.Core"
+             xmlns:viewModels="clr-namespace:CopyToLocales.ViewModel"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+      d:DataContext="{d:DesignInstance viewModels:SelectionViewModel}"
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding DictionaryEntryElements}">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{Binding IsCopy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        ElementStyle="{StaticResource CheckBoxCopyImageStyle}"
+                                        EditingElementStyle="{StaticResource CheckBoxCopyImageStyle}" />
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Key}" />
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Value}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
+            <Button Grid.Column="2" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
+        </Grid>
+    </Grid>
+</UserControl>
