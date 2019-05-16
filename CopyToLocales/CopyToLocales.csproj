@@ -92,16 +92,19 @@
     <Compile Include="Services\Interfaces\IOutputManager.cs" />
     <Compile Include="Services\Interfaces\IFileManager.cs" />
     <Compile Include="Services\Interfaces\ISettingsManager.cs" />
+    <Compile Include="Services\Realization\Outputs\XamlOutputManager.cs" />
+    <Compile Include="Services\Realization\Outputs\TextOutputManager.cs" />
     <Compile Include="Services\Realization\SettingsManager.cs" />
     <Compile Include="Services\Realization\LogService.cs" />
     <Compile Include="Services\ViewModule.cs" />
     <Compile Include="Services\Realization\OutputsManager.cs" />
-    <Compile Include="Services\Realization\ResxOutputManager.cs" />
+    <Compile Include="Services\Realization\Outputs\ResxOutputManager.cs" />
     <Compile Include="Services\Realization\FileManager.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Core\Enums\OutputTypes.cs" />
     <Compile Include="Core\Interfaces\INavigation.cs" />
     <Compile Include="ViewModel\SelectFileViewModel.cs" />
+    <Compile Include="ViewModel\SelectionInputViewModel.cs" />
     <Compile Include="ViewModel\SelectionOutputViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\KeysEditorViewModel.cs" />
@@ -113,6 +116,9 @@
     </Compile>
     <Compile Include="View\SelectFile.xaml.cs">
       <DependentUpon>SelectFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionInputView.xaml.cs">
+      <DependentUpon>SelectionInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectionOutputView.xaml.cs">
       <DependentUpon>SelectionOutputView.xaml</DependentUpon>
@@ -156,6 +162,10 @@
     <Page Include="View\SelectFile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectionInputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\SelectionOutputView.xaml">
       <SubType>Designer</SubType>

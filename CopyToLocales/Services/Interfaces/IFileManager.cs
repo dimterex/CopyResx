@@ -9,5 +9,6 @@ namespace CopyToLocales.Services.Interfaces
         Settings.Settings GetSettings(string filepath);
 
         void SaveSettings(string filepath, Settings.Settings settings);
+        void SaveFile(string combine, params string[] strings);
     }
 }

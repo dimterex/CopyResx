@@ -1,17 +1,17 @@
-﻿using CopyToLocales.Services;
-using CopyToLocales.Services.Interfaces;
-using CopyToLocales.Services.Realization;
-using CopyToLocales.View;
-using CopyToLocales.ViewModel;
-
-using Prism.Ioc;
-using Prism.Modularity;
-using Prism.Mvvm;
-
-using System.Windows;
-
-namespace CopyToLocales
+﻿namespace CopyToLocales
 {
+    using CopyToLocales.Services;
+    using CopyToLocales.Services.Interfaces;
+    using CopyToLocales.Services.Realization;
+    using CopyToLocales.View;
+    using CopyToLocales.ViewModel;
+
+    using Prism.Ioc;
+    using Prism.Modularity;
+    using Prism.Mvvm;
+
+    using System.Windows;
+
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
@@ -29,6 +29,8 @@ namespace CopyToLocales
             containerRegistry.RegisterSingleton<ILogService, LogService>();
 
             containerRegistry.Register<IOutputManager, ResxOutputManager>(nameof(ResxOutputManager));
+            containerRegistry.Register<IOutputManager, TextOutputManager>(nameof(TextOutputManager));
+            containerRegistry.Register<IOutputManager, XamlOutputManager>(nameof(XamlOutputManager));
 
             containerRegistry.RegisterSingleton<IOutputsManager, OutputsManager>();
         }
@@ -43,6 +45,7 @@ namespace CopyToLocales
             ViewModelLocationProvider.Register<SelectionView, SelectionViewModel> ();
             ViewModelLocationProvider.Register<KeysEditorView, KeysEditorViewModel> ();
             ViewModelLocationProvider.Register<SelectionOutputView, SelectionOutputViewModel> ();
+            ViewModelLocationProvider.Register<SelectionInputView, SelectionInputViewModel> ();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -40,8 +40,25 @@ namespace CopyToLocales.Services.Realization
 
         public void SaveSettings(string filepath, Settings.Settings settings)
         {
-            var tmp = JsonConvert.SerializeObject(settings);
+            var tmp = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(filepath, tmp);
+        }
+
+        public void SaveFile(string filePath, params string[] strings)
+        {
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            FileStream fs = File.Create(filePath);
+            StreamWriter sw = new StreamWriter(fs);
+
+            foreach (string s in strings)
+                sw.Write(s);
+           
+            sw.Close();
+            fs.Close();
+            sw.Dispose();
+            fs.Dispose();
         }
 
         #endregion Methods

@@ -14,7 +14,7 @@
 
     using Constants = CopyToLocales.Core.Constants;
 
-    public class SelectionOutputViewModel : BindableBase, INavigation
+    public class SelectionInputViewModel : BindableBase, INavigation
     {
         #region Fields
 
@@ -22,6 +22,7 @@
         private readonly IOutputsManager _outputsManager;
         private readonly ISettingsManager _settingsManager;
         private OutputTypes _selectedOutputType;
+        private string _textParser;
 
         #endregion Fields
 
@@ -39,17 +40,23 @@
             set => SetProperty(ref _selectedOutputType, value);
         }
 
+        public string TextParser
+        {
+            get => _textParser;
+            set => SetProperty(ref _textParser, value);
+        }
+
         #endregion Properties
 
         #region Constuctors
 
-        public SelectionOutputViewModel(IRegionManager regionManager, IOutputsManager outputsManager, ISettingsManager settingsManager)
+        public SelectionInputViewModel(IRegionManager regionManager, IOutputsManager outputsManager, ISettingsManager settingsManager)
         {
             _regionManager = regionManager;
             _outputsManager = outputsManager;
             _settingsManager = settingsManager;
             Outputs = new List<OutputTypes>(outputsManager.OutputManagers.Keys);
-            SelectedOutputType = _settingsManager.Settings.SelectedOutputType;
+            SelectedOutputType = _settingsManager.Settings.SelectedInputType;
             GoBackCommand = new DelegateCommand(GoBack);
             GoForwardkCommand = new DelegateCommand(GoForward);
         }
@@ -61,20 +68,20 @@
         private void GoBack()
         {
             //_journal.GoBack();
-            _regionManager.RequestNavigate(Constants.ContentRegion, nameof(SelectionView));
+            //_regionManager.RequestNavigate(Constants.ContentRegion, nameof(SelectionView));
         }
 
         private void GoForward()
         {
-            _outputsManager.SelectedOutputType = SelectedOutputType;
-            _settingsManager.Settings.SelectedOutputType = SelectedOutputType;
             //_journal.GoForward();
+            _outputsManager.SelectedInputType = SelectedOutputType;
+            _settingsManager.Settings.SelectedInputType = SelectedOutputType;
             switch (SelectedOutputType)
             {
-                case OutputTypes.Resx:
                 case OutputTypes.Text:
                 case OutputTypes.Xaml:
-                    _regionManager.RequestNavigate(Constants.ContentRegion, nameof(TargetFolderSelectView));
+                case OutputTypes.Resx:
+                    _regionManager.RequestNavigate(Constants.ContentRegion, nameof(SourceFolderSelectView));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -16,16 +16,37 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <view:SelectFile Grid.Row="0" DataContext="{Binding SelectFileViewModel}" />
+        <ScrollViewer Grid.Row="0" >
+            <ItemsControl ItemsSource="{Binding SelectFilesViewModel}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" Height="22" ItemsSource="{Binding SourceKeys}" SelectedItem="{Binding SourceKey}" />
+                            <view:SelectFile Grid.Column="1" DataContext="{Binding}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="1" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
-            <Button Grid.Column="2" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
+            <Button Grid.Column="2" Width="22" Content="{StaticResource ClearString}" Command="{Binding ClearCommand}" />
+            <Button Grid.Column="3" Width="22" Content="{StaticResource AddString}" Command="{Binding AddCommand}" />
+            <Button Grid.Column="4" Width="22" Content="{StaticResource UpdateString}" Command="{Binding UpdateCommand}" />
+            <Button Grid.Column="5" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
         </Grid>
     </Grid>
 </UserControl>

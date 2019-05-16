@@ -6,10 +6,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:core="clr-namespace:CopyToLocales.Core"
              xmlns:viewModels="clr-namespace:CopyToLocales.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance viewModels:SelectionViewModel}"
       d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <mvvm:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -32,9 +38,11 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
-            <Button Grid.Column="2" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
+            <Button Grid.Column="1" Style="{StaticResource CopyAllButtonStyle}" Command="{Binding SelectAllCommand}" />
+            <Button Grid.Column="2" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
+            <Button Grid.Column="3" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
         </Grid>
     </Grid>
 </UserControl>

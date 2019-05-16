@@ -1,19 +1,18 @@
-﻿using CopyToLocales.Core;
-using CopyToLocales.ViewModel.Enums;
+﻿using CopyToLocales.ViewModel.Enums;
 
 using System.Collections.Generic;
-using System.IO;
 
 namespace CopyToLocales.Services.Interfaces
 {
+    using ViewModel;
+
     public interface IOutputManager
     {
         OutputTypes OutputType { get; }
 
-        List<DictionaryEntryElement> SourceDictionaryEntryElements { get; }
+        void Save(Dictionary<string, SelectFileViewModel> sourceDictionaryEntryElements,
+                  Dictionary<string, SelectFileViewModel> targetDictionaryEntryElements);
 
-        void Save();
-
-        void InitReaders(FileType fileType, FileInfo fileInfo);
+        string InitReaders(FileType fileType, SelectFileViewModel selectFileViewModel);
     }
 }

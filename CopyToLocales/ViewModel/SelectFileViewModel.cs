@@ -1,19 +1,22 @@
-﻿using CopyToLocales.Services.Interfaces;
-
-using Prism.Commands;
-using Prism.Mvvm;
-
-using System;
-using System.Windows.Input;
+﻿
 
 namespace CopyToLocales.ViewModel
 {
+    using CopyToLocales.Services.Interfaces;
+
+    using Core;
+
+    using Prism.Commands;
+    using Prism.Mvvm;
+
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Input;
     public class SelectFileViewModel : BindableBase
     {
-        private readonly FileType _fileType;
         private readonly IFileManager _fileManager;
-        private readonly Settings.Settings _settings;
         private string _fullPath;
+        private string _sourceKey;
 
         public string FullPath
         {
@@ -21,26 +24,28 @@ namespace CopyToLocales.ViewModel
             set => SetProperty(ref _fullPath, value);
         }
 
+        public List<string> SourceKeys { get; }
+          
+        public string SourceKey
+        {
+            get => _sourceKey;
+            set => SetProperty(ref _sourceKey, value);
+        }
+
         public ICommand SourceOpenButton { get; }
 
-        public SelectFileViewModel(FileType fileType, IFileManager fileManager, Settings.Settings settings)
-        {
-            _fileType = fileType;
-            _fileManager = fileManager;
-            _settings = settings;
-            SourceOpenButton = new DelegateCommand(SourceOpenButton_Click);
+        public List<DictionaryEntryElement> DictionaryEntryElements { get; }
 
-            switch (_fileType)
-            {
-                case FileType.Source:
-                    FullPath = _settings.SourcePath;
-                    break;
-                case FileType.Target:
-                    FullPath = _settings.TargetPath;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        public SelectFileViewModel(IFileManager fileManager, IOutputsManager outputsManager, KeyValuePair<string, string> path)
+        {
+            _fileManager = fileManager;
+
+            SourceKeys = outputsManager.SourceDictionaryEntryElements.Keys.ToList();
+
+            DictionaryEntryElements = new List<DictionaryEntryElement>();
+            SourceOpenButton = new DelegateCommand(SourceOpenButton_Click);
+            SourceKey = path.Value;
+            FullPath = path.Key;
         }
 
         /// <summary>
@@ -49,22 +54,10 @@ namespace CopyToLocales.ViewModel
         private void SourceOpenButton_Click()
         {
             var tmp = _fileManager.OpenFolderPath();
-            if(tmp == null)
+            if (tmp == null)
                 return;
 
             FullPath = tmp.ToString();
-
-            switch (_fileType)
-            {
-                case FileType.Source:
-                    _settings.SourcePath = FullPath;
-                    break;
-                case FileType.Target:
-                    _settings.TargetPath = FullPath;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
     }
 }
