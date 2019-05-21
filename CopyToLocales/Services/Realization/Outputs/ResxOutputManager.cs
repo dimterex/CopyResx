@@ -25,7 +25,7 @@
         #region Fields
 
         private readonly ILogService _logService;
-        private readonly Dictionary<string, ResXResourceWriter> _targetResourceWriters;
+        private List<string> _ignorelist;
 
         #endregion Fields
 
@@ -40,7 +40,30 @@
         public ResxOutputManager(ILogService logService)
         {
             _logService = logService;
-            _targetResourceWriters = new Dictionary<string, ResXResourceWriter>();
+            _ignorelist = new List<string>()
+            {
+                ".Anchor",
+                ".ImeMode",
+                ".Location",
+                ".Size",
+                ".TabIndex",
+                ".Name",
+                ".Type",
+                ".Parent",
+                ".ZOrder",
+                ".AutoSize",
+                ".Dock",
+                ".ScrollBars",
+                ".AutoScaleDimensions",
+                ".TrayLocation",
+                ".Visible",
+                ".Margin",
+                ".MaxLength",
+                ".Multiline",
+                ".Padding",
+                ".Localizable",
+            };
+
         }
 
         #endregion Constuctors
@@ -61,13 +84,11 @@
                 name = $".{rsx[1]}.{rsx[2]}";
 
             foreach (DictionaryEntry dictionaryEntry in new ResXResourceReader(selectFileViewModel.FullPath))
-                selectFileViewModel.DictionaryEntryElements.Add(new DictionaryEntryElement(dictionaryEntry));
-
-            switch (fileType)
             {
-                case FileType.Target:
-                    _targetResourceWriters.Add(name, new ResXResourceWriter(selectFileViewModel.FullPath));
-                    break;
+                if (_ignorelist.Any(x => dictionaryEntry.Key.ToString().EndsWith(x)))
+                    continue;
+
+                selectFileViewModel.DictionaryEntryElements.Add(new DictionaryEntryElement(dictionaryEntry));
             }
 
             return name;
@@ -98,9 +119,9 @@
                 _logService.AddMessage($"Выбран файл локализации: {item.Key}");
                 SaveOnceFile(item.Key, 
                     item.Value.DictionaryEntryElements, 
-                    targetDictionaryEntryElements[item.Key].DictionaryEntryElements, 
-                    _targetResourceWriters[item.Key],
-                    defaultSource);
+                    targetDictionaryEntryElements[item.Key].DictionaryEntryElements,
+                    new ResXResourceWriter(targetDictionaryEntryElements[item.Key].FullPath),
+                defaultSource);
             }
         }
 

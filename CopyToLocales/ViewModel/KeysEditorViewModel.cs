@@ -1,5 +1,6 @@
 ﻿namespace CopyToLocales.ViewModel
 {
+    using System.Collections.Generic;
 
     using CopyToLocales.Core;
     using CopyToLocales.Services.Interfaces;
@@ -77,6 +78,17 @@
 
             _logService.AddMessage($"Запущен процесс копирования.");
 
+            foreach (KeyValuePair<string, SelectFileViewModel> outputsManagerSourceDictionaryEntryElement in _outputsManager.SourceDictionaryEntryElements)
+            {
+                foreach (var entryElement in outputsManagerSourceDictionaryEntryElement.Value.DictionaryEntryElements)
+                {
+                    var dictionaryEntryElement = DictionaryEntryElements.FirstOrDefault(x => x.Key.Equals(entryElement.Key));
+
+                    if (dictionaryEntryElement != null)
+                        entryElement.NewKey = dictionaryEntryElement.NewKey;
+                }
+            }
+
             _outputsManager.Save();
 
             _logService.AddMessage("Выполнено");
@@ -87,7 +99,7 @@
         {
             DictionaryEntryElements.Clear();
             SelectedKey = _outputsManager.SourceDictionaryEntryElements.FirstOrDefault().Key;
-            DictionaryEntryElements.AddRange(_outputsManager.SourceDictionaryEntryElements[SelectedKey].DictionaryEntryElements);
+            DictionaryEntryElements.AddRange(_outputsManager.SourceDictionaryEntryElements[SelectedKey].DictionaryEntryElements.Where(x => x.IsCopy));
         }
 
         private void GoBack()

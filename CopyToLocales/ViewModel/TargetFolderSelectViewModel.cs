@@ -116,7 +116,13 @@ namespace CopyToLocales.ViewModel
                 if (SelectFilesViewModel.Any(x => x.FullPath.Equals(resx)))
                     continue;
 
-                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _outputsManager, new KeyValuePair<string, string>(resx, string.Empty)));
+                var source = string.Empty;
+
+                var tm = selectFileViewModel.SourceKeys.FirstOrDefault(x => resx.EndsWith(x));
+                if (!string.IsNullOrEmpty(tm))
+                    source = tm;
+
+                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _outputsManager, new KeyValuePair<string, string>(resx, source)));
             }
         }
 
