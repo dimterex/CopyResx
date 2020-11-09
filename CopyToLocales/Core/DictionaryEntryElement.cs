@@ -24,10 +24,15 @@ namespace CopyToLocales.Core
         public string Value { get; }
 
         public DictionaryEntryElement(DictionaryEntry dictionaryEntry)
+            :this (dictionaryEntry.Key.ToString(), dictionaryEntry.Value.ToString())
         {
-            Key = dictionaryEntry.Key.ToString();
-            Value = dictionaryEntry.Value.ToString();
-            NewKey = string.Empty;
+        }
+
+        public DictionaryEntryElement(string key, string value)
+        {
+            Key = key;
+            Value = value;
+            NewKey = Key;
         }
     }
 }

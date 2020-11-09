@@ -1,29 +1,45 @@
-﻿using CopyToLocales.Core;
-using CopyToLocales.Services.Interfaces;
-using CopyToLocales.View;
-
-using Prism.Commands;
-using Prism.Regions;
-
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-
-namespace CopyToLocales.ViewModel
+﻿namespace CopyToLocales.ViewModel
 {
-    public class KeysEditorViewModel : INavigation
+    using System.Collections.Generic;
+
+    using CopyToLocales.Core;
+    using CopyToLocales.Services.Interfaces;
+    using CopyToLocales.View;
+
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Prism.Regions;
+
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows.Input;
+
+    public class KeysEditorViewModel : BindableBase, INavigation
     {
         #region Fields
 
         private readonly IRegionManager _regionManager;
         private readonly IOutputsManager _outputsManager;
         private readonly ILogService _logService;
+        private string _selectedKey;
+        private ObservableCollection<DictionaryEntryElement> _dic;
 
         #endregion Fields
 
         #region Properties
 
-        public ObservableCollection<DictionaryEntryElement> DictionaryEntryElements { get; }
+        public ObservableCollection<DictionaryEntryElement> DictionaryEntryElements
+        {
+            get => _dic;
+            set => SetProperty(ref _dic, value);
+        }
+
+        public string SelectedKey
+        {
+            get => _selectedKey;
+            set => SetProperty(ref _selectedKey, value);
+        }
+
         public ICommand GoBackCommand { get; }
         public ICommand StartCommand { get; }
         public ICommand GoForwardkCommand { get; }
@@ -62,7 +78,17 @@ namespace CopyToLocales.ViewModel
 
             _logService.AddMessage($"Запущен процесс копирования.");
 
-         
+            foreach (KeyValuePair<string, SelectFileViewModel> outputsManagerSourceDictionaryEntryElement in _outputsManager.SourceDictionaryEntryElements)
+            {
+                foreach (var entryElement in outputsManagerSourceDictionaryEntryElement.Value.DictionaryEntryElements)
+                {
+                    var dictionaryEntryElement = DictionaryEntryElements.FirstOrDefault(x => x.Key.Equals(entryElement.Key));
+
+                    if (dictionaryEntryElement != null)
+                        entryElement.NewKey = dictionaryEntryElement.NewKey;
+                }
+            }
+
             _outputsManager.Save();
 
             _logService.AddMessage("Выполнено");
@@ -72,7 +98,8 @@ namespace CopyToLocales.ViewModel
         private void LoadedCommandExecute()
         {
             DictionaryEntryElements.Clear();
-            DictionaryEntryElements.AddRange(_outputsManager.SourceDictionaryEntryElements.Where(x => x.IsCopy));
+            SelectedKey = _outputsManager.SourceDictionaryEntryElements.FirstOrDefault().Key;
+            DictionaryEntryElements.AddRange(_outputsManager.SourceDictionaryEntryElements[SelectedKey].DictionaryEntryElements.Where(x => x.IsCopy));
         }
 
         private void GoBack()

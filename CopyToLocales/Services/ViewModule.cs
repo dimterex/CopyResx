@@ -15,11 +15,12 @@ namespace CopyToLocales.Services
             //regionManager.AddToRegion(Constants.ContentRegion, containerProvider.Resolve<SourceFolderSelectView>());
             //regionManager.AddToRegion(Constants.ContentRegion, containerProvider.Resolve<SelectionView>());
             //regionManager.AddToRegion(Constants.ContentRegion, containerProvider.Resolve<KeysEditorView>());
-            regionManager.RequestNavigate(Constants.ContentRegion, nameof(SourceFolderSelectView));
+            regionManager.RequestNavigate(Constants.ContentRegion, nameof(SelectionInputView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<SelectionInputView>();
             containerRegistry.RegisterForNavigation<SourceFolderSelectView>();
             containerRegistry.RegisterForNavigation<SelectionView>();
             containerRegistry.RegisterForNavigation<KeysEditorView>();

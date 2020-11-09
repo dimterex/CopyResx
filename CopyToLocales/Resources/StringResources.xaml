@@ -17,5 +17,9 @@
 
     <system:String x:Key="CopyString">Копировать</system:String>
     <system:String x:Key="SelectFolderString">Указать папку</system:String>
+
+    <system:String x:Key="UpdateString">Обновить</system:String>
+    <system:String x:Key="AddString">Добавить</system:String>
+    <system:String x:Key="ClearString">Очистить</system:String>
     
 </ResourceDictionary>
