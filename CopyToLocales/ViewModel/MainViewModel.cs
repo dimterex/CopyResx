@@ -1,7 +1,4 @@
-﻿
-using CopyToLocales.Services.Interfaces;
-
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 
 using System.Collections.ObjectModel;
@@ -9,6 +6,8 @@ using System.Windows.Input;
 
 namespace CopyToLocales.ViewModel
 {
+    using CopyToLocales.Model.Interfaces;
+
     public class MainViewModel : BindableBase
     {
         #region Fields

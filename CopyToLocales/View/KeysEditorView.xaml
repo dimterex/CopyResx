@@ -7,10 +7,11 @@
              xmlns:core="clr-namespace:CopyToLocales.Core"
              xmlns:viewModel="clr-namespace:CopyToLocales.ViewModel"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:view="clr-namespace:CopyToLocales.View"
              mc:Ignorable="d"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance viewModel:KeysEditorViewModel}"
-             d:DesignHeight="150" d:DesignWidth="800">
+             d:DesignHeight="250" d:DesignWidth="800">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <mvvm:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -19,19 +20,39 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" ItemsSource="{Binding DictionaryEntryElements}" AutoGenerateColumns="False" SelectionMode="Single" IsSelected="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="{StaticResource HeaderValueKeysEditorString}" IsReadOnly="True" Binding="{Binding Value}" />
-                <DataGridTextColumn Header="{StaticResource HeaderOldKeyKeysEditorString}" IsReadOnly="True" Binding="{Binding Key}" />
-                <DataGridTextColumn Header="{StaticResource HeaderNewKeyKeysEditorString}" Binding="{Binding NewKey}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel Grid.Row="1">
+            <ComboBox Height="22" ItemsSource="{Binding SourceKeys}" SelectedItem="{Binding SelectedKey}" />
 
-        <Grid Grid.Row="1">
+            <DataGrid VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                      ItemsSource="{Binding DictionaryEntryElements}" AutoGenerateColumns="False" 
+                      SelectionMode="Single" IsSelected="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{StaticResource HeaderValueKeysEditorString}" 
+                                        IsReadOnly="True">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource DictionaryValuesConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type view:KeysEditorView}}"
+                                             Path="DataContext.SelectedKey"
+                                             Mode="OneWay" />
+                                    <Binding Path="KeyValueList" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                    </DataGridTextColumn>
+                    
+                    <DataGridTextColumn Header="{StaticResource HeaderOldKeyKeysEditorString}" IsReadOnly="True" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="{StaticResource HeaderNewKeyKeysEditorString}" Binding="{Binding NewKey}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <Grid Grid.Row="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -39,7 +60,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="2" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
-            <Button Grid.Column="3" Visibility="Collapsed" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
+            <Button Grid.Column="3" Visibility="Collapsed" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardCommand}" />
             <Button Grid.Column="3" Style="{StaticResource StartButtonImageStyle}" Command="{Binding StartCommand}" />
         </Grid>
     </Grid>

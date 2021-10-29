@@ -6,35 +6,61 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:core="clr-namespace:CopyToLocales.Core"
              xmlns:viewModels="clr-namespace:CopyToLocales.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:view="clr-namespace:CopyToLocales.View"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance viewModels:SelectionViewModel}"
       d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <mvvm:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="22" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding DictionaryEntryElements}">
+        <ComboBox Grid.Row="0" ItemsSource="{Binding SourceKeys}" SelectedItem="{Binding SelectedKey}" />
+
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False"
+                  ItemsSource="{Binding DictionaryEntryElements}"
+                  HorizontalScrollBarVisibility="Auto">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsCopy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         ElementStyle="{StaticResource CheckBoxCopyImageStyle}"
                                         EditingElementStyle="{StaticResource CheckBoxCopyImageStyle}" />
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Key}" />
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Value}" Width="*" />
+                
+                <DataGridTextColumn IsReadOnly="True" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource DictionaryValuesConverter}">
+                            <MultiBinding.Bindings>
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type view:SelectionView}}"
+                                         Path="DataContext.SelectedKey"
+                                         Mode="OneWay" />
+                                <Binding Path="Values" />
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
-            <Button Grid.Column="2" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
+            <Button Grid.Column="1" Style="{StaticResource CopyAllButtonStyle}" Command="{Binding SelectAllCommand}" />
+            <Button Grid.Column="2" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
+            <Button Grid.Column="3" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardCommand}" />
         </Grid>
     </Grid>
 </UserControl>

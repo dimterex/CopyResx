@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CopyToLocales"
                     xmlns:grayscaleEffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:view="clr-namespace:CopyToLocales.View">
 
     <system:Double x:Key="NavigationButtonHeigth">22</system:Double>
     <system:Double x:Key="NavigationButtonWidth">100</system:Double>
@@ -42,4 +43,6 @@
     <Style x:Key="TextBlockStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="6,6,6,-6" />
     </Style>
+    
+    <view:DictionaryValuesConverter x:Key="DictionaryValuesConverter"/>
 </ResourceDictionary>

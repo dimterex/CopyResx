@@ -25,7 +25,7 @@
 
         <TextBox Style="{StaticResource TextBoxStyle}"
                  Text="{Binding FullPath}" 
-                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
+                 Grid.Row="1" Grid.Column="0" />
 
         <Button Style="{StaticResource FolderButtonImageStyle}"
                 Grid.Row="1" Grid.Column="1"

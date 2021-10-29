@@ -1,17 +1,24 @@
-﻿using CopyToLocales.Services;
-using CopyToLocales.Services.Interfaces;
-using CopyToLocales.Services.Realization;
-using CopyToLocales.View;
-using CopyToLocales.ViewModel;
-
-using Prism.Ioc;
-using Prism.Modularity;
-using Prism.Mvvm;
-
-using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
+using CommonServiceLocator;
 
 namespace CopyToLocales
 {
+    using CopyToLocales.View;
+    using CopyToLocales.ViewModel;
+
+    using Prism.Ioc;
+    using Prism.Modularity;
+    using Prism.Mvvm;
+
+    using System.Windows;
+    using CopyToLocales.Model;
+    using CopyToLocales.Model.Interfaces;
+    using CopyToLocales.Model.Outputs;
+
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
@@ -28,9 +35,11 @@ namespace CopyToLocales
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<ILogService, LogService>();
 
-            containerRegistry.Register<IOutputManager, ResxOutputManager>(nameof(ResxOutputManager));
+            containerRegistry.Register<IFormatManager, ResxFormatManager>(nameof(ResxFormatManager));
+            containerRegistry.Register<IFormatManager, TextFormatManager>(nameof(TextFormatManager));
+            containerRegistry.Register<IFormatManager, XamlFormatManager>(nameof(XamlFormatManager));
 
-            containerRegistry.RegisterSingleton<IOutputsManager, OutputsManager>();
+            containerRegistry.RegisterSingleton<IFormatsManager, FormatsManager>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -43,6 +52,7 @@ namespace CopyToLocales
             ViewModelLocationProvider.Register<SelectionView, SelectionViewModel> ();
             ViewModelLocationProvider.Register<KeysEditorView, KeysEditorViewModel> ();
             ViewModelLocationProvider.Register<SelectionOutputView, SelectionOutputViewModel> ();
+            ViewModelLocationProvider.Register<SelectionInputView, SelectionInputViewModel> ();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

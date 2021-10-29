@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CopyToLocales</RootNamespace>
     <AssemblyName>CopyToLocales</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -85,34 +85,43 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Constants.cs" />
-    <Compile Include="Core\DictionaryEntryElement.cs" />
-    <Compile Include="Core\Enums\FileType.cs" />
-    <Compile Include="Services\Interfaces\ILogService.cs" />
-    <Compile Include="Services\Interfaces\IOutputsManager.cs" />
-    <Compile Include="Services\Interfaces\IOutputManager.cs" />
-    <Compile Include="Services\Interfaces\IFileManager.cs" />
-    <Compile Include="Services\Interfaces\ISettingsManager.cs" />
-    <Compile Include="Services\Realization\SettingsManager.cs" />
-    <Compile Include="Services\Realization\LogService.cs" />
-    <Compile Include="Services\ViewModule.cs" />
-    <Compile Include="Services\Realization\OutputsManager.cs" />
-    <Compile Include="Services\Realization\ResxOutputManager.cs" />
-    <Compile Include="Services\Realization\FileManager.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Core\Enums\OutputTypes.cs" />
-    <Compile Include="Core\Interfaces\INavigation.cs" />
+    <Compile Include="Core\Enums\DirectionType.cs" />
+    <Compile Include="DAL\SettingsDto.cs" />
+    <Compile Include="Model\FileManager.cs" />
+    <Compile Include="Model\FormatsManager.cs" />
+    <Compile Include="Model\Interfaces\IFileManager.cs" />
+    <Compile Include="Model\Interfaces\IFormatManager.cs" />
+    <Compile Include="Model\Interfaces\IFormatsManager.cs" />
+    <Compile Include="Model\Interfaces\ILogService.cs" />
+    <Compile Include="Model\Interfaces\ISettingsManager.cs" />
+    <Compile Include="Model\LogService.cs" />
+    <Compile Include="Model\Formats\ResxFormatManager.cs" />
+    <Compile Include="Model\Formats\TextFormatManager.cs" />
+    <Compile Include="Model\Formats\XamlFormatManager.cs" />
+    <Compile Include="Model\ResourceModel.cs" />
+    <Compile Include="Model\SettingsManager.cs" />
+    <Compile Include="Core\Enums\FormatTypes.cs" />
+    <Compile Include="ViewModel\Common\ChangedResourceViewModel.cs" />
+    <Compile Include="ViewModel\Common\CopyResourceViewModel.cs" />
+    <Compile Include="ViewModel\Interfaces\INavigationViewModel.cs" />
     <Compile Include="ViewModel\SelectFileViewModel.cs" />
+    <Compile Include="ViewModel\SelectionInputViewModel.cs" />
     <Compile Include="ViewModel\SelectionOutputViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\KeysEditorViewModel.cs" />
     <Compile Include="ViewModel\TargetFolderSelectViewModel.cs" />
     <Compile Include="ViewModel\SourceFolderSelectViewModel.cs" />
     <Compile Include="ViewModel\SelectionViewModel.cs" />
+    <Compile Include="ViewModule.cs" />
+    <Compile Include="View\Converters\DictionaryValuesConverter.cs" />
     <Compile Include="View\KeysEditorView.xaml.cs">
       <DependentUpon>KeysEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectFile.xaml.cs">
       <DependentUpon>SelectFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionInputView.xaml.cs">
+      <DependentUpon>SelectionInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectionOutputView.xaml.cs">
       <DependentUpon>SelectionOutputView.xaml</DependentUpon>
@@ -156,6 +165,10 @@
     <Page Include="View\SelectFile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectionInputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\SelectionOutputView.xaml">
       <SubType>Designer</SubType>
@@ -210,11 +223,13 @@
     <Resource Include="Resources\copy-24.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Converters\" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\back-24.png" />
     <Resource Include="Resources\forward-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add-24.png" />
+    <Resource Include="Resources\clear-24.png" />
+    <Resource Include="Resources\update-24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

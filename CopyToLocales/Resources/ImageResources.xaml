@@ -3,11 +3,16 @@
                     xmlns:local="clr-namespace:CopyToLocales"
                     xmlns:grayscaleEffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect">
 
+    <!-- Icons from https://www.iconsdb.com/royal-blue-icons/ -->
     <BitmapImage x:Key="CopyImage_x24" UriSource="pack://application:,,,/Resources/copy-24.png" />
     <BitmapImage x:Key="PlaytImage_x24" UriSource="pack://application:,,,/Resources/play-3-24.png" />
     <BitmapImage x:Key="FolderImage_x24" UriSource="pack://application:,,,/Resources/folder-24.png" />
     <BitmapImage x:Key="BackImage_x24" UriSource="pack://application:,,,/Resources/back-24.png" />
     <BitmapImage x:Key="ForwardImage_x24" UriSource="pack://application:,,,/Resources/forward-24.png" />
+    
+    <BitmapImage x:Key="AddImage_x24" UriSource="pack://application:,,,/Resources/add-24.png" />
+    <BitmapImage x:Key="UpdateImage_x24" UriSource="pack://application:,,,/Resources/update-24.png" />
+    <BitmapImage x:Key="ClearImage_x24" UriSource="pack://application:,,,/Resources/clear-24.png" />
 
     <grayscaleEffect:GrayscaleEffect x:Key="grayscaleEffect" />
 
@@ -57,6 +62,27 @@
                                 <Image.Style>
                                     <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
                                         <Setter Property="Source" Value="{StaticResource BackImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CopyAllButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource BackButtonString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource CopyImage_x24}" />
                                     </Style>
                                 </Image.Style>
                             </Image>
@@ -124,6 +150,69 @@
     </ControlTemplate>
     <Style x:Key="StartButtonImageStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Template" Value="{StaticResource StartButtonDataTemplate}" />
+    </Style>
+    
+    <Style x:Key="AddButtonImageStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource AddString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource AddImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style> 
+    
+    <Style x:Key="ClearButtonImageStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource ClearString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource ClearImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="UpdateButtonImageStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Image x:Name="Image" ToolTip="{StaticResource UpdateString}">
+                                <Image.Style>
+                                    <Style TargetType="Image" BasedOn="{StaticResource ImageStyleScale}">
+                                        <Setter Property="Source" Value="{StaticResource UpdateImage_x24}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

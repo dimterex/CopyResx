@@ -22,7 +22,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource TextBlockStyle}" Grid.Row="0" Text="{StaticResource SelectionOutputString}"  />
-            <ComboBox Style="{StaticResource BaseStyleElement}" Grid.Row="1" SelectedItem="{Binding SelectedOutputType}" ItemsSource="{Binding Outputs}" />
+            <ComboBox Style="{StaticResource BaseStyleElement}" Grid.Row="1" SelectedItem="{Binding SelectedFormatType}" ItemsSource="{Binding Outputs}" />
         </Grid>
 
         <Grid Grid.Row="1">
@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="1" Style="{StaticResource NavigationBackButtonStyle}" Command="{Binding GoBackCommand}" />
-            <Button Grid.Column="2" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardkCommand}" />
+            <Button Grid.Column="2" Style="{StaticResource NavigationForwardButtonStyle}" Command="{Binding GoForwardCommand}" />
         </Grid>
     </Grid>
 </UserControl>
