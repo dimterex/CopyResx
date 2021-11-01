@@ -6,7 +6,6 @@
     using CopyToLocales.Core;
     using CopyToLocales.Model.Interfaces;
     using CopyToLocales.View;
-    using CopyToLocales.ViewModel.Enums;
     using CopyToLocales.ViewModel.Interfaces;
     using Prism.Commands;
     using Prism.Mvvm;
@@ -20,7 +19,7 @@
 
         private readonly IRegionManager _regionManager;
         private readonly ISettingsManager _settingsManager;
-        private FormatTypes _selectedFormatType;
+        private string _selectedFormatType;
         private string _textParser;
 
         #endregion
@@ -31,9 +30,9 @@
 
         public ICommand GoForwardCommand { get; }
 
-        public List<FormatTypes> Outputs { get; }
+        public List<string> Outputs { get; }
 
-        public FormatTypes SelectedFormatType
+        public string SelectedFormatType
         {
             get => _selectedFormatType;
             set => SetProperty(ref _selectedFormatType, value);
@@ -72,16 +71,7 @@
         {
             _formatsManager.SelectedInputType = SelectedFormatType;
             _settingsManager.SetFormatType(SelectedFormatType, DirectionType.Source);
-            switch (SelectedFormatType)
-            {
-                case FormatTypes.Text:
-                case FormatTypes.Xaml:
-                case FormatTypes.Resx:
-                    _regionManager.RequestNavigate(Constants.ContentRegion, nameof(SourceFolderSelectView));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _regionManager.RequestNavigate(Constants.ContentRegion, nameof(SourceFolderSelectView));
         }
 
         #endregion

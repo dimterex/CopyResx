@@ -1,4 +1,7 @@
-﻿namespace CopyToLocales.Model.Outputs
+﻿using CopyToLocale.Core.Models;
+using CopyToLocale.Core.Modules;
+
+namespace CopyToLocales.Model.Outputs
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +9,6 @@
     using System.Text;
     using CopyToLocales.Model.Interfaces;
     using CopyToLocales.ViewModel;
-    using CopyToLocales.ViewModel.Common;
-    using CopyToLocales.ViewModel.Enums;
 
     public class TextFormatManager : IFormatManager
     {
@@ -20,22 +21,21 @@
 
         #region Fields
 
-        private readonly ILogService _logService;
         private readonly IFileManager _fileManager;
 
         #endregion Fields
 
         #region Properties
 
-        public FormatTypes FormatType => FormatTypes.Text;
+        public event EventHandler<string> StateChangeEvent;
+        public string FormatType => "Text";
 
         #endregion Properties
 
         #region Constuctors
 
-        public TextFormatManager(ILogService logService, IFileManager fileManager)
+        public TextFormatManager(IFileManager fileManager)
         {
-            _logService = logService;
             _fileManager = fileManager;
         }
 
@@ -48,7 +48,7 @@
         /// <summary>
         /// Инициализировать ресурсные файлы.
         /// </summary>
-        public Dictionary<string, ResourceModel> InitReaders(IList<SelectFileViewModel> selectFileViewModel)
+        public Dictionary<string, ResourceModel> InitReaders(IList<SelectFileModel> selectFileViewModel)
         {
             // var txt = File.ReadAllLines(selectFileViewModel.FullPath);
             //
@@ -68,7 +68,7 @@
             return new Dictionary<string, ResourceModel>();
         }
 
-        public void Update(List<ChangedResourceViewModel> forUpdate, IList<SelectFileViewModel> targetFileList)
+        public void Update(List<ChangedResourceModel> forUpdate, IList<SelectFileModel> targetFileList)
         {
         }
 
@@ -97,7 +97,7 @@
 
             foreach (var item in sourceDictionaryEntryElements)
             {
-                _logService.AddMessage($"Выбран файл локализации: {item.Key}");
+                StateChangeEvent?.Invoke(this, $"Выбран файл локализации: {item.Key}");
                 foreach (KeyValuePair<string, SelectFileViewModel> targetDictionaryEntryElement in targetDictionaryEntryElements)
                 {
                     if (targetDictionaryEntryElement.Value.SourceKey == item.Key)
@@ -150,18 +150,18 @@
             //     //if (valueInResx != null)
             //     //{
             //     //    exist.Append(GetStringFormat(sourceName.Key, sourceName.Value));
-            //     //    _logService.AddMessage($"Значение {sourceName.Value} доступно по ключу {sourceName.Key}.");
+            //     //    StateChangeEvent?.Invoke(this, $"Значение {sourceName.Value} доступно по ключу {sourceName.Key}.");
             //     //    continue;
             //     //}
             //
             //     if (keyInXaml != null)
             //     {
             //         exist.Append(GetStringFormat(sourceName.Key, sourceName.Value));
-            //         _logService.AddMessage($"Значение {sourceName.Value} доступно по ключу {sourceName.Key}.");
+            //         StateChangeEvent?.Invoke(this, $"Значение {sourceName.Value} доступно по ключу {sourceName.Key}.");
             //         continue;
             //     }
             //
-            //     _logService.AddMessage($"Получено значение по ключу {sourceName.Key} со значением: {sourceName.Value}");
+            //     StateChangeEvent?.Invoke(this, $"Получено значение по ключу {sourceName.Key} со значением: {sourceName.Value}");
             //     if (!string.IsNullOrEmpty(tValue) )
             //     {
             //         if(!t.Equals(sourceName.Value))

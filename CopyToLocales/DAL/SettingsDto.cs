@@ -1,9 +1,7 @@
 ﻿namespace CopyToLocales.DAL
 {
     using System.Collections.Generic;
-    using CopyToLocales.ViewModel.Enums;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
 
     public class SettingsDto
     {
@@ -13,13 +11,11 @@
         [JsonProperty(PropertyName = "TargetsPath")]
         public List<KeyValuePair<string, string>> TargetPath { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyName = "SelectedOutputType")]
-        public FormatTypes SelectedOutputType { get; set; }
+        public string SelectedOutputType { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyName = "SelectedInputType")]
-        public FormatTypes SelectedInputType { get; set; }
+        public string SelectedInputType { get; set; }
 
         [JsonProperty(PropertyName = "BlackList")]
         public List<string> BlackList { get; set; }

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>..\CopyToLocales\bin\Debug\net5.0-windows\Modules\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>..\CopyToLocales\bin\Release\net5.0-windows\Modules\</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CopyToLocale.Core\CopyToLocale.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Composition.AttributedModel" Version="6.0.0-rc.2.21480.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="PresentationFramework, Version=5.0.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+        <HintPath>C:\Users\UseR\.dotnet\shared\Microsoft.WindowsDesktop.App\5.0.9\PresentationFramework.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Xaml" />
+    </ItemGroup>
+
+</Project>

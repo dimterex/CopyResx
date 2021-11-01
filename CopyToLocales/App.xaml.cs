@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using CommonServiceLocator;
+﻿using CopyToLocale.Core.Modules;
 
 namespace CopyToLocales
 {
@@ -31,14 +26,14 @@ namespace CopyToLocales
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            var app = new Application(containerRegistry, Container);
+            app.Start();
+            
             containerRegistry.RegisterSingleton<IFileManager, FileManager>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<ILogService, LogService>();
 
-            containerRegistry.Register<IFormatManager, ResxFormatManager>(nameof(ResxFormatManager));
             containerRegistry.Register<IFormatManager, TextFormatManager>(nameof(TextFormatManager));
-            containerRegistry.Register<IFormatManager, XamlFormatManager>(nameof(XamlFormatManager));
-
             containerRegistry.RegisterSingleton<IFormatsManager, FormatsManager>();
         }
 

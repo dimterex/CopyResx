@@ -113,7 +113,6 @@ namespace CopyToLocales.ViewModel
 
         private void GoBack()
         {
-            //_journal.GoBack();
             _regionManager.RequestNavigate(Constants.ContentRegion, nameof(SelectionInputView));
         }
 

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using CopyToLocales.DAL;
     using CopyToLocales.Model.Interfaces;
-    using CopyToLocales.ViewModel.Enums;
 
     public class SettingsManager : ISettingsManager
     {
@@ -43,7 +42,7 @@
             return _settingsDto.BlackList;
         }
 
-        public void SetFormatType(FormatTypes selectedFormatType, DirectionType source)
+        public void SetFormatType(string selectedFormatType, DirectionType source)
         {
             switch (source)
             {
@@ -58,7 +57,7 @@
             }
         }
 
-        public FormatTypes GetFormatType(DirectionType source)
+        public string GetFormatType(DirectionType source)
         {
             switch (source)
             {

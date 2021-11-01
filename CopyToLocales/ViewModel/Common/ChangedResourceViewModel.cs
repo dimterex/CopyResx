@@ -1,4 +1,6 @@
-﻿namespace CopyToLocales.ViewModel.Common
+﻿using CopyToLocale.Core.Models;
+
+namespace CopyToLocales.ViewModel.Common
 {
     using System.Collections.Generic;
     using CopyToLocales.Model;
@@ -55,27 +57,29 @@
         /// <param name="defaultSourceKey">Язык локализации значения по умолчанию.</param>
         public void Clear(string defaultSourceKey)
         {
-            if (KeyValueList.ContainsKey(defaultSourceKey))
-            {
-                var defaultValue = KeyValueList[defaultSourceKey];
+            if (string.IsNullOrEmpty(defaultSourceKey))
+                return;
+            if (!KeyValueList.ContainsKey(defaultSourceKey))
+                return;
+            
+            var defaultValue = KeyValueList[defaultSourceKey];
 
-                var toRemove = new List<string>();
+            var toRemove = new List<string>();
                 
-                // Переносить для языка по умолчанию в любом случае.
-                // Если значение в текущем языке совпадет со значеним для языка по умолчанию,
-                // значит данная фраза не локализована и нет необходимости ее переносить.
-                foreach (var keyValuePair in KeyValueList)
-                {
-                    if (keyValuePair.Key.Equals(defaultValue))
-                        continue;
+            // Переносить для языка по умолчанию в любом случае.
+            // Если значение в текущем языке совпадет со значеним для языка по умолчанию,
+            // значит данная фраза не локализована и нет необходимости ее переносить.
+            foreach (var keyValuePair in KeyValueList)
+            {
+                if (keyValuePair.Key.Equals(defaultValue))
+                    continue;
                     
-                    if (keyValuePair.Value.Equals(defaultValue))
-                        toRemove.Add(keyValuePair.Key);
-                }
-
-                foreach (var removed in toRemove)
-                    KeyValueList.Remove(removed);
+                if (keyValuePair.Value.Equals(defaultValue))
+                    toRemove.Add(keyValuePair.Key);
             }
+
+            foreach (var removed in toRemove)
+                KeyValueList.Remove(removed);
         }
     }
 }

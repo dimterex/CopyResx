@@ -1,235 +1,88 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{66128800-585B-41DB-B09C-621EBA3241C9}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>CopyToLocales</RootNamespace>
-    <AssemblyName>CopyToLocales</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
-    </Reference>
-    <Reference Include="GrayscaleEffect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GrayscaleEffect.1.0.1\lib\GrayscaleEffect.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Core\Constants.cs" />
-    <Compile Include="Core\Enums\DirectionType.cs" />
-    <Compile Include="DAL\SettingsDto.cs" />
-    <Compile Include="Model\FileManager.cs" />
-    <Compile Include="Model\FormatsManager.cs" />
-    <Compile Include="Model\Interfaces\IFileManager.cs" />
-    <Compile Include="Model\Interfaces\IFormatManager.cs" />
-    <Compile Include="Model\Interfaces\IFormatsManager.cs" />
-    <Compile Include="Model\Interfaces\ILogService.cs" />
-    <Compile Include="Model\Interfaces\ISettingsManager.cs" />
-    <Compile Include="Model\LogService.cs" />
-    <Compile Include="Model\Formats\ResxFormatManager.cs" />
-    <Compile Include="Model\Formats\TextFormatManager.cs" />
-    <Compile Include="Model\Formats\XamlFormatManager.cs" />
-    <Compile Include="Model\ResourceModel.cs" />
-    <Compile Include="Model\SettingsManager.cs" />
-    <Compile Include="Core\Enums\FormatTypes.cs" />
-    <Compile Include="ViewModel\Common\ChangedResourceViewModel.cs" />
-    <Compile Include="ViewModel\Common\CopyResourceViewModel.cs" />
-    <Compile Include="ViewModel\Interfaces\INavigationViewModel.cs" />
-    <Compile Include="ViewModel\SelectFileViewModel.cs" />
-    <Compile Include="ViewModel\SelectionInputViewModel.cs" />
-    <Compile Include="ViewModel\SelectionOutputViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\KeysEditorViewModel.cs" />
-    <Compile Include="ViewModel\TargetFolderSelectViewModel.cs" />
-    <Compile Include="ViewModel\SourceFolderSelectViewModel.cs" />
-    <Compile Include="ViewModel\SelectionViewModel.cs" />
-    <Compile Include="ViewModule.cs" />
-    <Compile Include="View\Converters\DictionaryValuesConverter.cs" />
-    <Compile Include="View\KeysEditorView.xaml.cs">
-      <DependentUpon>KeysEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SelectFile.xaml.cs">
-      <DependentUpon>SelectFile.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SelectionInputView.xaml.cs">
-      <DependentUpon>SelectionInputView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SelectionOutputView.xaml.cs">
-      <DependentUpon>SelectionOutputView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\TargetFolderSelectView.xaml.cs">
-      <DependentUpon>TargetFolderSelectView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SourceFolderSelectView.xaml.cs">
-      <DependentUpon>SourceFolderSelectView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SelectionView.xaml.cs">
-      <DependentUpon>SelectionView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Resources\ImageResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\ResourceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\StringResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\KeysEditorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="View\SelectFile.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\SelectionInputView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\SelectionOutputView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\TargetFolderSelectView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\SourceFolderSelectView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\SelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\folder-24.png" />
-    <Resource Include="Resources\play-3-24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\copy-24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\back-24.png" />
-    <Resource Include="Resources\forward-24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\add-24.png" />
-    <Resource Include="Resources\clear-24.png" />
-    <Resource Include="Resources\update-24.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <AssemblyName>CopyToLocales</AssemblyName>
+        <RootNamespace>CopyToLocales</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
+      <PackageReference Include="GrayscaleEffect" Version="1.0.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+      <PackageReference Include="NLog" Version="5.0.0-preview.3" />
+      <PackageReference Include="Prism.Core" Version="7.1.0.431" />
+      <PackageReference Include="Prism.Unity" Version="7.1.0.431" />
+      <PackageReference Include="Prism.Wpf" Version="7.1.0.431" />
+      <PackageReference Include="ResXResourceReader.NetStandard" Version="1.0.1" />
+      <PackageReference Include="System.Composition" Version="6.0.0-rc.2.21480.5" />
+      <PackageReference Include="System.Composition.Hosting" Version="6.0.0-rc.2.21480.5" />
+      <PackageReference Include="Unity.Abstractions" Version="3.3.1" />
+      <PackageReference Include="Unity.Container" Version="5.8.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Resources\ImageResources.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Resources\ResourceDictionary.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Resources\StringResources.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\KeysEditorView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\MainView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\SelectFile.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\SelectionInputView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\SelectionOutputView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\TargetFolderSelectView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\SourceFolderSelectView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="View\SelectionView.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\add-24.png" />
+      <Resource Include="Resources\back-24.png" />
+      <Resource Include="Resources\clear-24.png" />
+      <Resource Include="Resources\copy-24.png" />
+      <Resource Include="Resources\folder-24.png" />
+      <Resource Include="Resources\forward-24.png" />
+      <Resource Include="Resources\play-3-24.png" />
+      <Resource Include="Resources\update-24.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="View\MainView.xaml.cs">
+        <DependentUpon>MainView.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="View\MainView.xaml.cs">
+        <DependentUpon>MainView.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CopyToLocale.Core\CopyToLocale.Core.csproj" />
+    </ItemGroup>
+
 </Project>

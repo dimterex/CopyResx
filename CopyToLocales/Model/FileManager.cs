@@ -1,7 +1,9 @@
-﻿namespace CopyToLocales.Model
+﻿using System.Xml;
+using Microsoft.Win32;
+
+namespace CopyToLocales.Model
 {
     using System.IO;
-    using System.Windows.Forms;
     using CopyToLocales.DAL;
     using CopyToLocales.Model.Interfaces;
     using Newtonsoft.Json;
@@ -17,7 +19,7 @@
         {
             var folderBrowserDialog = new OpenFileDialog();
 
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == true)
                 return new FileInfo(folderBrowserDialog.FileName);
 
             return null;

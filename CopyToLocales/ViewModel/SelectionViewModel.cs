@@ -1,4 +1,6 @@
-﻿namespace CopyToLocales.ViewModel
+﻿using CopyToLocale.Core.Models;
+
+namespace CopyToLocales.ViewModel
 {
     using CopyToLocales.Core;
     using CopyToLocales.View;

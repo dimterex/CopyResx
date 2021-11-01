@@ -1,4 +1,7 @@
-﻿namespace CopyToLocales.ViewModel
+﻿using System.Windows;
+using CopyToLocale.Core.Models;
+
+namespace CopyToLocales.ViewModel
 {
     using System.Collections.Generic;
 
@@ -84,7 +87,7 @@
             _formatsManager.Save(DictionaryEntryElements);
 
             _logService.AddMessage("Выполнено");
-            System.Windows.Forms.MessageBox.Show("Выполнено");
+            MessageBox.Show("Выполнено");
         }
 
         private void LoadedCommandExecute()
