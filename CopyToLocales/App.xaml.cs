@@ -1,6 +1,4 @@
-﻿using CopyToLocale.Core.Modules;
-
-namespace CopyToLocales
+﻿namespace CopyToLocales
 {
     using CopyToLocales.View;
     using CopyToLocales.ViewModel;
@@ -12,7 +10,6 @@ namespace CopyToLocales
     using System.Windows;
     using CopyToLocales.Model;
     using CopyToLocales.Model.Interfaces;
-    using CopyToLocales.Model.Outputs;
 
     /// <summary>
     /// Логика взаимодействия для App.xaml
@@ -33,7 +30,6 @@ namespace CopyToLocales
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<ILogService, LogService>();
 
-            containerRegistry.Register<IFormatManager, TextFormatManager>(nameof(TextFormatManager));
             containerRegistry.RegisterSingleton<IFormatsManager, FormatsManager>();
         }
 

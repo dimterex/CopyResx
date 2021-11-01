@@ -1,3 +1,6 @@
+using CopyToLocale.Core;
+using CopyToLocales.DAL;
+
 namespace CopyToLocales.ViewModel
 {
     using CopyToLocales.Core;
@@ -58,7 +61,7 @@ namespace CopyToLocales.ViewModel
             foreach (var settingsManagerSetting in _settingsManager.GetPathList(DirectionType.Source))
             {
                 SelectFilesViewModel.Add(
-                    new SelectFileViewModel(_fileManager, _formatsManager, settingsManagerSetting.Key, settingsManagerSetting.Value));
+                    new SelectFileViewModel(_fileManager, _formatsManager, settingsManagerSetting.FilePath, settingsManagerSetting.Localization));
             }
 
             GoBackCommand = new DelegateCommand(GoBack);
@@ -79,7 +82,7 @@ namespace CopyToLocales.ViewModel
 
         private void Add()
         {
-            SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, string.Empty, string.Empty));
+            SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, string.Empty, SupportedLocalization.None));
         }
 
         private void Update()
@@ -95,21 +98,10 @@ namespace CopyToLocales.ViewModel
                 if (SelectFilesViewModel.Any(x => x.FullPath.Equals(resx)))
                     continue;
 
-                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, resx, string.Empty));
+                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, resx, SupportedLocalization.None));
             }
         }
 
-        private string GetKey(string path)
-        {
-            var fileInfo = new FileInfo(path);
-            var rsx = fileInfo.Name.Split('.');
-            string name = string.Empty;
-            if (rsx.Length == 2)
-                name = $".ru.{rsx[1]}"; //Используется для русского языка.
-            else if (rsx.Length == 3)
-                name = $".{rsx[1]}.{rsx[2]}";
-            return name;
-        }
 
         private void GoBack()
         {
@@ -124,11 +116,15 @@ namespace CopyToLocales.ViewModel
                 return;
             }
 
-            var ls = new List<KeyValuePair<string, string>>();
+            var ls = new List<FileDto>();
             foreach (var selectFileViewModel in SelectFilesViewModel)
             {
-                selectFileViewModel.SourceKey = GetKey(selectFileViewModel.FullPath);
-                ls.Add(new KeyValuePair<string, string>(selectFileViewModel.FullPath, selectFileViewModel.SourceKey));
+                selectFileViewModel.SourceKey = _formatsManager.GetKey(selectFileViewModel.FullPath, DirectionType.Source);
+                ls.Add(new FileDto()
+                {
+                    FilePath = selectFileViewModel.FullPath,
+                    Localization = selectFileViewModel.SourceKey,
+                });
             }
 
             _settingsManager.UpdatePathList(DirectionType.Source, ls);

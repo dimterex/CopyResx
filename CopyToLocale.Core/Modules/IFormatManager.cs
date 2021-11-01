@@ -9,6 +9,9 @@ namespace CopyToLocale.Core.Modules
         event EventHandler<string> StateChangeEvent;
         
         string FormatType { get; }
+
+        SupportedLocalization GetKey(string path);
+        
         Dictionary<string, ResourceModel> InitReaders(IList<SelectFileModel> selectFileViewModel);
         void Update(List<ChangedResourceModel> forUpdate, IList<SelectFileModel> targetFileList);
         List<string> GetAnotherLanguages(string path);

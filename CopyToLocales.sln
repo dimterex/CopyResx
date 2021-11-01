@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyToLocales.Xaml", "CopyT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{841C9F3D-6D19-4DEE-B57A-4BA780E22135}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyToLocales.Text", "CopyToLocales.Text\CopyToLocales.Text.csproj", "{0B89B716-6556-4CFC-A065-96EBF72EDADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyToLocales.Postgressql", "CopyToLocales.Postgressql\CopyToLocales.Postgressql.csproj", "{59E0D4A5-3C83-46B7-BD2E-8553DDE18E45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{841C9F3D-6D19-4DEE-B57A-4BA780E22135}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{841C9F3D-6D19-4DEE-B57A-4BA780E22135}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{841C9F3D-6D19-4DEE-B57A-4BA780E22135}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B89B716-6556-4CFC-A065-96EBF72EDADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B89B716-6556-4CFC-A065-96EBF72EDADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B89B716-6556-4CFC-A065-96EBF72EDADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B89B716-6556-4CFC-A065-96EBF72EDADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E0D4A5-3C83-46B7-BD2E-8553DDE18E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E0D4A5-3C83-46B7-BD2E-8553DDE18E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E0D4A5-3C83-46B7-BD2E-8553DDE18E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E0D4A5-3C83-46B7-BD2E-8553DDE18E45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

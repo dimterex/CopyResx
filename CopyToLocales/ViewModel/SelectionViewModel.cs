@@ -1,4 +1,5 @@
-﻿using CopyToLocale.Core.Models;
+﻿using CopyToLocale.Core;
+using CopyToLocale.Core.Models;
 
 namespace CopyToLocales.ViewModel
 {
@@ -25,7 +26,7 @@ namespace CopyToLocales.ViewModel
         private readonly IRegionManager _regionManager;
         private readonly IFormatsManager _formatsManager;
         private List<CopyResourceViewModel> _dict;
-        private string _selectedKey;
+        private SupportedLocalization _selectedKey;
 
         #endregion Fields
 
@@ -37,9 +38,9 @@ namespace CopyToLocales.ViewModel
             set => SetProperty(ref _dict, value);
         }
         
-        public ObservableCollection<string> SourceKeys { get; }
+        public ObservableCollection<SupportedLocalization> SourceKeys { get; }
 
-        public string SelectedKey
+        public SupportedLocalization SelectedKey
         {
             get => _selectedKey;
             set => SetProperty(ref _selectedKey, value);
@@ -64,7 +65,7 @@ namespace CopyToLocales.ViewModel
             GoForwardCommand = new DelegateCommand(GoForward);
             SelectAllCommand = new DelegateCommand(SelectAll);
             LoadedCommand = new DelegateCommand(LoadedCommandExecute);
-            SourceKeys = new ObservableCollection<string>();
+            SourceKeys = new ObservableCollection<SupportedLocalization>();
         }
 
         #endregion Constuctors

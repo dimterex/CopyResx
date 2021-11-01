@@ -6,10 +6,10 @@
     public class SettingsDto
     {
         [JsonProperty(PropertyName = "SourcesPath")]
-        public List<KeyValuePair<string, string>> SourcesPath { get; set; }
+        public List<FileDto> SourcesPath { get; set; }
 
         [JsonProperty(PropertyName = "TargetsPath")]
-        public List<KeyValuePair<string, string>> TargetPath { get; set; }
+        public List<FileDto> TargetPath { get; set; }
 
         [JsonProperty(PropertyName = "SelectedOutputType")]
         public string SelectedOutputType { get; set; }
@@ -22,8 +22,8 @@
 
         public SettingsDto()
         {
-            SourcesPath = new List<KeyValuePair<string, string>>();
-            TargetPath = new List<KeyValuePair<string, string>>();
+            SourcesPath = new List<FileDto>();
+            TargetPath = new List<FileDto>();
             BlackList = new List<string>();
         }
     }

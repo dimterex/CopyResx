@@ -6,9 +6,9 @@ namespace CopyToLocale.Core.Models
     {
         public string FullPath { get; set; }
 
-        public List<string> SourceKeys  { get; set; }
+        public List<SupportedLocalization> SourceKeys  { get; set; }
           
-        public string SourceKey  { get; set; }
+        public SupportedLocalization SourceKey  { get; set; }
 
         public bool IsDefault { get; set; }
         public List<CopyResourceModel> DictionaryEntryElements { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace CopyToLocales.ViewModel.Common
+﻿using CopyToLocale.Core;
+
+namespace CopyToLocales.ViewModel.Common
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -19,9 +21,9 @@
 
         public string Key { get; }
 
-        public Dictionary<string, string> Values { get; }
+        public Dictionary<SupportedLocalization, string> Values { get; }
 
-        public CopyResourceViewModel(string key, Dictionary<string, string> values)
+        public CopyResourceViewModel(string key, Dictionary<SupportedLocalization, string> values)
         {
             Key = key;
             Values = values;

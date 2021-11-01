@@ -9,7 +9,6 @@ using System.Composition.Hosting;
 using MefPrototype;
 using NLog;
 using Prism.Ioc;
-using Unity;
 
 namespace CopyToLocales
 {
@@ -20,14 +19,8 @@ namespace CopyToLocales
 
         #region Constants
 
-        /// <summary>
-        /// Директория, в которой находятся загружаемые модули.
-        /// </summary>
         private const string MODULES_DIRECTORY = "Modules\\net5.0";
 
-        /// <summary>
-        /// Шаблон поиска файлов сборок модулей.
-        /// </summary>
         private const string SEARCH_MODULE_PATTERN = "CopyToLocales.*.dll";
 
         #endregion Constants
@@ -52,10 +45,8 @@ namespace CopyToLocales
 
         #region Methods
 
-        /// <inheritdoc />
         public void Start()
         {
-            // Загружаем сборки модулей.
             IReadOnlyList<Assembly> moduleAssemblies = LoadModuleAssemblies();
 
             if (moduleAssemblies.Count == 0)
@@ -64,25 +55,18 @@ namespace CopyToLocales
                 return;
             }
 
-            // На основе загруженных сборок создаём контейнер композиции.
-            // Через него будет происходить импорт реализаций `IModule` из загруженных ранее сборок.
             using CompositionHost host = new ContainerConfiguration()
                 .WithAssemblies(moduleAssemblies)
                 .CreateContainer();
 
-
-
-            // Создаём обёртку над контейнером, при помощи которой модули будут регистрировать свои зависимости.
             var serviceCollection = new ServiceCollection(_containerRegistry, _containerProvider);
 
             _logger.Info("Configuring services of modules...");
 
-            // Получаем реализации интерфейса `IModule`.
             foreach (IModule module in host.GetExports<IModule>())
             {
                 try
                 {
-                    // Вызываем метод настройки/регистрации сервисов модуля.
                     module.ConfigureServices(serviceCollection);
 
                     _logger.Info(() => $"Services of module `{module.GetType().Name}` configured.");
@@ -94,7 +78,6 @@ namespace CopyToLocales
             }
         }
 
-        /// <inheritdoc />
         public void Stop()
         {
             _modulesLoadContext?.Unload();
@@ -115,10 +98,6 @@ namespace CopyToLocales
                 return Array.Empty<Assembly>();
             }
 
-            // Загрузка сборок происходит в изолированный контекст с возможностью выгрузить его в дальнейшем.
-            // Это не обязательное условие. Можно загружать сборки в `AssemblyLoadContext.Default`,
-            // но выгрузить их в дальнейшем не представится возможным.
-            // Выгрузка может пригодиться, если понадобится перезагружать модули.
             _modulesLoadContext = new AssemblyLoadContext("Modules", true);
 
             var assemblies = new List<Assembly>();
@@ -130,7 +109,6 @@ namespace CopyToLocales
                 try
                 {
                     Assembly assembly = _modulesLoadContext.LoadFromAssemblyPath(filePath);
-
                     assemblies.Add(assembly);
 
                     _logger.Info(() => $"Module assembly `{fileName}` loaded.");

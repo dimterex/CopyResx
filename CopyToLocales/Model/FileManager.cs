@@ -48,23 +48,6 @@ namespace CopyToLocales.Model
             File.WriteAllText(filepath, tmp);
         }
 
-        public void SaveFile(string filePath, params string[] strings)
-        {
-            if (File.Exists(filePath))
-                File.Delete(filePath);
-
-            var fs = File.Create(filePath);
-            var sw = new StreamWriter(fs);
-
-            foreach (var s in strings)
-                sw.Write(s);
-
-            sw.Close();
-            fs.Close();
-            sw.Dispose();
-            fs.Dispose();
-        }
-
         #endregion
     }
 }

@@ -16,7 +16,6 @@
       <PackageReference Include="Prism.Core" Version="7.1.0.431" />
       <PackageReference Include="Prism.Unity" Version="7.1.0.431" />
       <PackageReference Include="Prism.Wpf" Version="7.1.0.431" />
-      <PackageReference Include="ResXResourceReader.NetStandard" Version="1.0.1" />
       <PackageReference Include="System.Composition" Version="6.0.0-rc.2.21480.5" />
       <PackageReference Include="System.Composition.Hosting" Version="6.0.0-rc.2.21480.5" />
       <PackageReference Include="Unity.Abstractions" Version="3.3.1" />

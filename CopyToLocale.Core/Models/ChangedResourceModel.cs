@@ -18,6 +18,6 @@ namespace CopyToLocale.Core.Models
         /// Список значений.
         /// В качестве ключа в данном списке используется язык локализации.
         /// </summary>
-        public Dictionary<string, string> KeyValueList { get; set; }
+        public Dictionary<SupportedLocalization, string> KeyValueList { get; set; }
     }
 }

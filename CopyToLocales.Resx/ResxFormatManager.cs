@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using CopyToLocale.Core;
 using CopyToLocale.Core.Models;
 using CopyToLocale.Core.Modules;
 
@@ -20,6 +21,7 @@ namespace CopyToLocates.Resx
         #region Fields
 
         private readonly List<string> _blackList;
+        private readonly Dictionary<string, SupportedLocalization> _supportedLocalizationMapper;
 
         #endregion
 
@@ -62,12 +64,56 @@ namespace CopyToLocates.Resx
                 ".SplitterDistance",
                 ".ImageIndex"
             };
+            
+            _supportedLocalizationMapper = new Dictionary<string, SupportedLocalization>();
+            _supportedLocalizationMapper.Add(string.Empty, SupportedLocalization.None);
+            _supportedLocalizationMapper.Add(".ar.resx", SupportedLocalization.Arabic);
+            _supportedLocalizationMapper.Add(".cs.resx", SupportedLocalization.Czech);
+            _supportedLocalizationMapper.Add(".de.resx", SupportedLocalization.German);
+            _supportedLocalizationMapper.Add(".el.resx", SupportedLocalization.Greek);
+            _supportedLocalizationMapper.Add(".en.resx", SupportedLocalization.English_US);
+            _supportedLocalizationMapper.Add(".es.resx", SupportedLocalization.Spanish);
+            _supportedLocalizationMapper.Add(".fr.resx", SupportedLocalization.French);
+            _supportedLocalizationMapper.Add(".hu.resx", SupportedLocalization.Hungarian);
+            _supportedLocalizationMapper.Add(".it.resx", SupportedLocalization.Italian);
+            _supportedLocalizationMapper.Add(".ja.resx", SupportedLocalization.Japanese);
+            _supportedLocalizationMapper.Add(".ko.resx", SupportedLocalization.South_Korean);
+            _supportedLocalizationMapper.Add(".nl.resx", SupportedLocalization.Dutch);
+            _supportedLocalizationMapper.Add(".pl.resx", SupportedLocalization.Polish);
+            _supportedLocalizationMapper.Add(".pt-BR.resx", SupportedLocalization.Brazilian_Portuguese);
+            _supportedLocalizationMapper.Add(".resx", SupportedLocalization.Russian);
+            _supportedLocalizationMapper.Add(".sk.resx", SupportedLocalization.Slovak);
+            _supportedLocalizationMapper.Add(".sr.resx", SupportedLocalization.Serbian);
+            _supportedLocalizationMapper.Add(".tr.resx", SupportedLocalization.Turkish);
+            _supportedLocalizationMapper.Add(".uk.resx", SupportedLocalization.Ukrainian);
+            _supportedLocalizationMapper.Add(".zh-CHS.resx", SupportedLocalization.Simplified_Chinese);
+            _supportedLocalizationMapper.Add(".zh-CHT.resx", SupportedLocalization.Traditional_Chinese);
         }
 
         #endregion
 
         #region Methods
 
+        
+        public SupportedLocalization GetKey(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                path = string.Empty;
+                return _supportedLocalizationMapper[path];
+            }
+            
+            var fileInfo = new FileInfo(path);
+            var rsx = fileInfo.Name.Split('.');
+            string name = string.Empty;
+            if (rsx.Length == 2)
+                name = $".{rsx[1]}"; //Используется для русского языка.
+            else if (rsx.Length == 3)
+                name = $".{rsx[1]}.{rsx[2]}";
+            
+            return _supportedLocalizationMapper[name];
+        }
+        
         private void ParseResx(SelectFileModel selectFileViewModel, Dictionary<string, ResourceModel> result)
         {
             XmlDocument itemDoc = new XmlDocument();
@@ -85,7 +131,7 @@ namespace CopyToLocates.Resx
                 if (_blackList.Any(x => key.EndsWith(x)))
                     continue;
 
-                Dictionary<string, string> testDic;
+                Dictionary<SupportedLocalization, string> testDic;
                     
                 if (result.ContainsKey(key))
                 {
@@ -128,9 +174,9 @@ namespace CopyToLocates.Resx
 
         public void Update(List<ChangedResourceModel> forUpdate, IList<SelectFileModel> targetFileList)
         {
-            var readList = new Dictionary<string, List<DictionaryEntry>>();
-            var writers = new Dictionary<string, XmlDocument>();
-            var paths = new Dictionary<string, string>();
+            var readList = new Dictionary<SupportedLocalization, List<DictionaryEntry>>();
+            var writers = new Dictionary<SupportedLocalization, XmlDocument>();
+            var paths = new Dictionary<SupportedLocalization, string>();
 
             foreach (var fileViewModel in targetFileList)
             {

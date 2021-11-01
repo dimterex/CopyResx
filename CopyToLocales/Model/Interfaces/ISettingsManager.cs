@@ -1,4 +1,7 @@
-﻿namespace CopyToLocales.Model.Interfaces
+﻿using CopyToLocale.Core;
+using CopyToLocales.DAL;
+
+namespace CopyToLocales.Model.Interfaces
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -9,7 +12,7 @@
         List<string> GetBlackList();
         void SetFormatType(string selectedFormatType, DirectionType source);
         string GetFormatType(DirectionType source);
-        List<KeyValuePair<string, string>> GetPathList(DirectionType source);
-        void UpdatePathList(DirectionType source, List<KeyValuePair<string,string>> ls);
+        List<FileDto> GetPathList(DirectionType source);
+        void UpdatePathList(DirectionType source, List<FileDto> ls);
     }
 }

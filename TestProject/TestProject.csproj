@@ -6,7 +6,7 @@
 
         <OutputType>Exe</OutputType>
 
-        <TargetFramework>net5.0-windows</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CopyToLocales.Postgressql\CopyToLocales.Postgressql.csproj" />
       <ProjectReference Include="..\CopyToLocales.Resx\CopyToLocales.Resx.csproj" />
       <ProjectReference Include="..\CopyToLocales.Xaml\CopyToLocales.Xaml.csproj" />
     </ItemGroup>

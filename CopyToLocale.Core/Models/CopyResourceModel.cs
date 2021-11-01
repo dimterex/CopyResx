@@ -8,6 +8,6 @@ namespace CopyToLocale.Core.Models
 
         public string Key { get; }
 
-        public Dictionary<string, string> Values { get; }
+        public Dictionary<SupportedLocalization, string> Values { get; }
     }
 }

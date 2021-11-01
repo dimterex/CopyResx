@@ -1,4 +1,5 @@
 ﻿using System.Windows.Documents;
+using CopyToLocale.Core;
 using CopyToLocale.Core.Models;
 using CopyToLocale.Core.Modules;
 
@@ -14,9 +15,10 @@ namespace CopyToLocales.Model
 
     public class FormatsManager : IFormatsManager
     {
+        private readonly ILogService _logService;
         private IList<SelectFileViewModel> _sourceFileList;
         private IList<SelectFileViewModel> _targetFileList;
-        private string _defaultSourceKey;
+        private SupportedLocalization _defaultSourceKey;
         private readonly Dictionary<string, IFormatManager> _outputManagers;
 
         #region Properties
@@ -34,8 +36,9 @@ namespace CopyToLocales.Model
 
         #region Constuctors
 
-        public FormatsManager(IFormatManager[] outputManagers)
+        public FormatsManager(IFormatManager[] outputManagers, ILogService logService)
         {
+            _logService = logService;
             _outputManagers = new Dictionary<string, IFormatManager>();
             SupportsFormat = new List<string>();
 
@@ -47,13 +50,20 @@ namespace CopyToLocales.Model
             foreach (var outputManager in outputManagers)
             {
                 _outputManagers.Add(outputManager.FormatType, outputManager);
+                outputManager.StateChangeEvent += OutputManagerOnStateChangeEvent;
                 SupportsFormat.Add(outputManager.FormatType);
             }
         }
+       
 
         #endregion Constuctors
 
         #region Methods
+        
+        private void OutputManagerOnStateChangeEvent(object? sender, string e)
+        {
+            _logService.AddMessage(e);
+        }
 
         public void Save(ObservableCollection<ChangedResourceViewModel> dictionaryEntryElements)
         {
@@ -109,12 +119,12 @@ namespace CopyToLocales.Model
             }
         }
 
-        public List<string> GetSourceKeys()
+        public List<SupportedLocalization> GetSourceKeys()
         {
             return _sourceFileList?.Select(x => x.SourceKey).ToList();
         }
 
-        public void SetDefaultKey(string sourceKey)
+        public void SetDefaultKey(SupportedLocalization sourceKey)
         {
             _defaultSourceKey = sourceKey;
         }
@@ -127,6 +137,20 @@ namespace CopyToLocales.Model
                     return _outputManagers[SelectedInputType].GetAnotherLanguages(path);
                 case DirectionType.Target:
                     return _outputManagers[SelectedFormatType].GetAnotherLanguages(path);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(directionType), directionType, null);
+            }
+        }
+
+        
+        public SupportedLocalization GetKey(string path, DirectionType directionType)
+        {
+            switch (directionType)
+            {
+                case DirectionType.Source:
+                    return _outputManagers[SelectedInputType].GetKey(path);
+                case DirectionType.Target:
+                    return _outputManagers[SelectedFormatType].GetKey(path);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(directionType), directionType, null);
             }

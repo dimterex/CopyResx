@@ -1,4 +1,5 @@
-﻿using CopyToLocale.Core.Models;
+﻿using CopyToLocale.Core;
+using CopyToLocale.Core.Models;
 
 namespace CopyToLocales.ViewModel.Common
 {
@@ -37,7 +38,7 @@ namespace CopyToLocales.ViewModel.Common
         /// Список значений.
         /// В качестве ключа в данном списке используется язык локализации.
         /// </summary>
-        public Dictionary<string, string> KeyValueList { get; }
+        public Dictionary<SupportedLocalization, string> KeyValueList { get; }
 
         #endregion Properties
 
@@ -55,16 +56,16 @@ namespace CopyToLocales.ViewModel.Common
         /// Убрать значения, одинаковые со значением по умолчанию.
         /// </summary>
         /// <param name="defaultSourceKey">Язык локализации значения по умолчанию.</param>
-        public void Clear(string defaultSourceKey)
+        public void Clear(SupportedLocalization defaultSourceKey)
         {
-            if (string.IsNullOrEmpty(defaultSourceKey))
+            if (defaultSourceKey == SupportedLocalization.None)
                 return;
             if (!KeyValueList.ContainsKey(defaultSourceKey))
                 return;
             
             var defaultValue = KeyValueList[defaultSourceKey];
 
-            var toRemove = new List<string>();
+            var toRemove = new List<SupportedLocalization>();
                 
             // Переносить для языка по умолчанию в любом случае.
             // Если значение в текущем языке совпадет со значеним для языка по умолчанию,

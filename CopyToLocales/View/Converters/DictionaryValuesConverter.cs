@@ -1,4 +1,6 @@
-﻿namespace CopyToLocales.View
+﻿using CopyToLocale.Core;
+
+namespace CopyToLocales.View
 {
     using System;
     using System.Collections.Generic;
@@ -12,11 +14,11 @@
             if (values.Length != 2)
                 return string.Empty;
 
-            if (!(values[0] is string key))
-                return string.Empty;
+            if (!(values[0] is SupportedLocalization key))
+                return values[0].ToString();
             
-            if (!(values[1] is  Dictionary<string, string> dict))
-                return string.Empty;
+            if (!(values[1] is  Dictionary<SupportedLocalization, string> dict))
+                return values[1].ToString();
 
             if (dict.ContainsKey(key))
                 return dict[key];

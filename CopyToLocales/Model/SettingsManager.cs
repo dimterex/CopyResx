@@ -70,7 +70,7 @@
             }
         }
 
-        public List<KeyValuePair<string, string>> GetPathList(DirectionType source)
+        public List<FileDto> GetPathList(DirectionType source)
         {
             switch (source)
             {
@@ -83,7 +83,7 @@
             }
         }
 
-        public void UpdatePathList(DirectionType source, List<KeyValuePair<string, string>> ls)
+        public void UpdatePathList(DirectionType source, List<FileDto> ls)
         {
             switch (source)
             {

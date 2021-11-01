@@ -1,4 +1,6 @@
-﻿namespace CopyToLocales.ViewModel
+﻿using CopyToLocale.Core;
+
+namespace CopyToLocales.ViewModel
 {
     using Prism.Commands;
     using Prism.Mvvm;
@@ -11,7 +13,7 @@
     {
         private readonly IFileManager _fileManager;
         private string _fullPath;
-        private string _sourceKey;
+        private SupportedLocalization _sourceKey;
         private bool _isDefault;
 
         public string FullPath
@@ -20,9 +22,9 @@
             set => SetProperty(ref _fullPath, value);
         }
 
-        public List<string> SourceKeys { get; }
+        public List<SupportedLocalization> SourceKeys { get; }
           
-        public string SourceKey
+        public SupportedLocalization SourceKey
         {
             get => _sourceKey;
             set => SetProperty(ref _sourceKey, value);
@@ -36,7 +38,7 @@
             set => SetProperty(ref _isDefault, value);
         }
 
-        public SelectFileViewModel(IFileManager fileManager, IFormatsManager formatsManager, string fullPath, string key)
+        public SelectFileViewModel(IFileManager fileManager, IFormatsManager formatsManager, string fullPath, SupportedLocalization key)
         {
             _fileManager = fileManager;
 

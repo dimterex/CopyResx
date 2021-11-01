@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using CopyToLocale.Core;
 using CopyToLocale.Core.Models;
 using CopyToLocale.Core.Modules;
 
@@ -45,6 +46,13 @@ namespace CopyToLocales.Xaml
         #endregion Constuctors
 
         #region Methods
+        
+        
+        public SupportedLocalization GetKey(string path)
+        {
+            return SupportedLocalization.Russian;
+        }
+        
 
         public Dictionary<string, ResourceModel> InitReaders(IList<SelectFileModel> selectFileViewModel)
         {
@@ -119,7 +127,6 @@ namespace CopyToLocales.Xaml
         {
             return new List<string>();
         }
-
 
         public void Save(Dictionary<string, SelectFileModel> sourceDictionaryEntryElements,
                          Dictionary<string, SelectFileModel> targetDictionaryEntryElements)

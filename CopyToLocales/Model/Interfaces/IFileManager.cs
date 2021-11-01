@@ -10,6 +10,5 @@
         SettingsDto GetSettings(string filepath);
 
         void SaveSettings(string filepath, SettingsDto settingsDto);
-        void SaveFile(string combine, params string[] strings);
     }
 }

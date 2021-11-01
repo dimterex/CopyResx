@@ -1,4 +1,5 @@
-﻿using CopyToLocale.Core.Models;
+﻿using CopyToLocale.Core;
+using CopyToLocale.Core.Models;
 
 namespace CopyToLocales.Model.Interfaces
 {
@@ -22,8 +23,10 @@ namespace CopyToLocales.Model.Interfaces
 
         void Load(DirectionType source, IList<SelectFileViewModel> selectFileViewModel);
 
-        List<string> GetSourceKeys();
-        void SetDefaultKey(string sourceKey);
+        List<SupportedLocalization> GetSourceKeys();
+        void SetDefaultKey(SupportedLocalization sourceKey);
         List<string> GetAnotherLanguages(string path, DirectionType directionType);
+
+        SupportedLocalization GetKey(string path, DirectionType directionType);
     }
 }

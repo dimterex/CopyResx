@@ -18,7 +18,7 @@ namespace CopyToLocale.Core.Models
         /// Список значений.
         /// В качестве ключа в данном списке используется язык локализации.
         /// </summary>
-        public Dictionary<string, string> KeyValueList { get; }
+        public Dictionary<SupportedLocalization, string> KeyValueList { get; }
         
         #endregion Properties
 
@@ -27,7 +27,7 @@ namespace CopyToLocale.Core.Models
         public ResourceModel(string key)
         {
             Key = key;
-            KeyValueList = new Dictionary<string, string>();
+            KeyValueList = new Dictionary<SupportedLocalization, string>();
         }
 
         #endregion Constructors

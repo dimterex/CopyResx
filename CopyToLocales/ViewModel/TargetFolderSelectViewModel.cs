@@ -1,3 +1,6 @@
+using CopyToLocale.Core;
+using CopyToLocales.DAL;
+
 namespace CopyToLocales.ViewModel
 {
     using CopyToLocales.Core;
@@ -59,7 +62,7 @@ namespace CopyToLocales.ViewModel
 
             foreach (var settingsManagerSetting in _settingsManager.GetPathList(DirectionType.Target))
             {
-                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, settingsManagerSetting.Key, settingsManagerSetting.Value));
+                // SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, settingsManagerSetting.Key, settingsManagerSetting.Value));
             }
 
             GoBackCommand = new DelegateCommand(GoBack);
@@ -80,7 +83,7 @@ namespace CopyToLocales.ViewModel
 
         private void Add()
         {
-            SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, string.Empty, string.Empty));
+            SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, string.Empty, SupportedLocalization.None));
         }
 
         private void Update()
@@ -96,13 +99,9 @@ namespace CopyToLocales.ViewModel
                 if (SelectFilesViewModel.Any(x => x.FullPath.Equals(resx)))
                     continue;
 
-                var source = string.Empty;
-
-                var tm = selectFileViewModel.SourceKeys.FirstOrDefault(x => resx.EndsWith(x));
-                if (!string.IsNullOrEmpty(tm))
-                    source = tm;
-
-                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, resx, source));
+                var type = _formatsManager.GetKey(resx, DirectionType.Target);
+                var tm = selectFileViewModel.SourceKeys.FirstOrDefault(x => x == type);
+                SelectFilesViewModel.Add(new SelectFileViewModel(_fileManager, _formatsManager, resx, tm));
             }
         }
 
@@ -115,14 +114,18 @@ namespace CopyToLocales.ViewModel
         {
             if (SelectFilesViewModel.Any(x => string.IsNullOrWhiteSpace(x.FullPath)))
             {
-                _logService.AddMessage("���� �� ������.");
+                _logService.AddMessage("Не выбран файл.");
                 return;
             }
 
-            var ls = new List<KeyValuePair<string, string>>();
+            var ls = new List<FileDto>();
             foreach (var selectFileViewModel in SelectFilesViewModel)
             {
-                ls.Add(new KeyValuePair<string, string>(selectFileViewModel.FullPath, selectFileViewModel.SourceKey));
+                ls.Add(new FileDto()
+                {
+                    FilePath = selectFileViewModel.FullPath,
+                    Localization = selectFileViewModel.SourceKey,
+                });
                 
                 if (selectFileViewModel.IsDefault)
                     _formatsManager.SetDefaultKey(selectFileViewModel.SourceKey);
