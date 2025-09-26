@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
+using System.Composition;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 using MefPrototype.Core.Modules;
 using MefPrototype.Core.Services;
 using System.Composition.Hosting;
+using CopyToLocale.Core.Modules;
 using MefPrototype;
+using Microsoft.Extensions.DependencyModel;
 using NLog;
 using Prism.Ioc;
 
@@ -44,9 +48,29 @@ namespace CopyToLocales
         #endregion Constructors
 
         #region Methods
+        
+        [ImportMany]
+        public IFormatManager[] IpCheckerList { get; set; }
+
+        private CompositionContainer _container;
 
         public void Start()
         {
+            string entryAssemblyLocation = Assembly.GetEntryAssembly()!.Location;
+            string entryAssemblyDirectoryName = Path.GetDirectoryName(entryAssemblyLocation)!;
+            string modulesLocation = Path.Combine(entryAssemblyDirectoryName, MODULES_DIRECTORY);
+            // An aggregate catalog that combines multiple catalogs.
+            
+            var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+            catalog.Catalogs.Add(new DirectoryCatalog(modulesLocation));
+            _container = new CompositionContainer(catalog);
+            
+
+            _container.ComposeParts(this);
+            
+            return;
+            
             IReadOnlyList<Assembly> moduleAssemblies = LoadModuleAssemblies();
 
             if (moduleAssemblies.Count == 0)
@@ -54,11 +78,12 @@ namespace CopyToLocales
                 _logger.Warn("No modules loaded.");
                 return;
             }
-
+            
+            
             using CompositionHost host = new ContainerConfiguration()
                 .WithAssemblies(moduleAssemblies)
                 .CreateContainer();
-
+             
             var serviceCollection = new ServiceCollection(_containerRegistry, _containerProvider);
 
             _logger.Info("Configuring services of modules...");
@@ -98,24 +123,57 @@ namespace CopyToLocales
                 return Array.Empty<Assembly>();
             }
 
-            _modulesLoadContext = new AssemblyLoadContext("Modules", true);
+            _modulesLoadContext = new CustomAssemblyLoadContext();
 
             var assemblies = new List<Assembly>();
 
-            foreach (var filePath in Directory.EnumerateFiles(modulesLocation, SEARCH_MODULE_PATTERN, SearchOption.TopDirectoryOnly))
+            var envValue = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            
+            var remainingLibraries = new Queue<string>(Directory
+                .GetFiles(modulesLocation, SEARCH_MODULE_PATTERN));
+            
+            while (remainingLibraries.Count > 0)
             {
-                var fileName = Path.GetFileName(filePath);
-
+                var current = remainingLibraries.Dequeue();
                 try
                 {
-                    Assembly assembly = _modulesLoadContext.LoadFromAssemblyPath(filePath);
-                    assemblies.Add(assembly);
-
-                    _logger.Info(() => $"Module assembly `{fileName}` loaded.");
+                     if (File.Exists(current))
+                     {
+                         // var asm = Assembly.LoadFrom(current);
+                         var asm = _modulesLoadContext.LoadFromAssemblyPath(current);
+                         assemblies.Add(asm);
+     
+                         _logger.Info(() => $"Module assembly `{current}` loaded.");
+                         // if (asm != null)
+                         // {
+                         //     var depcontext = DependencyContext.Load(asm);
+                         //     if (depcontext != null)
+                         //     {
+                         //         foreach (var runtimeLibrary in depcontext.RuntimeLibraries)
+                         //         {
+                         //             // we only care about nuget packages, our main dlls are local anyway
+                         //             if (runtimeLibrary.Type == "package")
+                         //             {
+                         //                 foreach (var runtimeAssemblyGroup in runtimeLibrary.RuntimeAssemblyGroups)
+                         //                 {
+                         //                     foreach (var assetPath in runtimeAssemblyGroup.AssetPaths)
+                         //                     {
+                         //                         string packageSource =
+                         //                             $".nuget/packages/{runtimeLibrary.Name}/{runtimeLibrary.Version}";
+                         //                         var fullPath = Path.Combine(envValue, packageSource, assetPath)
+                         //                             .Replace("\\", "/");
+                         //                         remainingLibraries.Enqueue(fullPath);
+                         //                     }
+                         //                 }
+                         //             }
+                         //         }
+                         //     }
+                         // }
+                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(() => $"Failed to load module assembly `{fileName}`. {ex}");
+                    _logger.Error(() => $"Failed to load module assembly `{current}`. {ex}");
                 }
             }
 
